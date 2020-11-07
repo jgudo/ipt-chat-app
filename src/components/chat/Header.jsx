@@ -1,9 +1,10 @@
 import React from 'react';
 
-const Header = ({ roomName }) => {
+const Header = ({ room }) => {
     return (
-        <div className="chat-header">
-            <h4>Chat Room: {roomName}</h4>
+        <div className="chatroom-header">
+            <span>Chat Room &nbsp;({room.users.length} People)</span>
+            <h4>{room.roomName}</h4>
         </div>
     );
 };

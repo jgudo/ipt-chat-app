@@ -27,7 +27,7 @@ const Navbar = ({ user, clearData }) => {
     return (
         <nav className="navbar">
             <div className="navbar__item-left">
-                <h3 className="navbar__logo">Chat App</h3>
+                <h3 className="navbar__logo">IPT Chat App</h3>
                 {user.isAuth && (
                     <div className="navbar__actions">
                         {pathname !== '/join_room' && (

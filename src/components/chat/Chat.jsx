@@ -56,7 +56,7 @@ const Chat = ({ history, match }) => {
     return (
         <div className="chatroom">
             <div className="chatroom-sidebar">
-                <Header roomName={room.roomName} />
+                <Header room={room} />
                 <ActiveUsers users={room.users} />
             </div>
             <div className="chatroom-chat">
