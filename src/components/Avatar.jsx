@@ -2,18 +2,14 @@ import React from 'react';
 
 const Avatar = ({ user }) => {
     return (
-        <ul className="avatar__profile">
-            <li className="avatar__profile-item">
-                <img
-                    className="avatar__img"
-                    src={user.photoURL}
-                    alt={`${user.displayName}'s avatar`}
-                />
-            </li>
-            <li className="avatar__profile-item">
-                <h6>{user.displayName}</h6>
-            </li>
-        </ul>
+        <div className="avatar__profile">
+            <img
+                className="avatar__profile-item avatar__img"
+                src={user.photoURL}
+                alt={`${user.displayName}'s avatar`}
+            />
+            <h5 className="avatar__profile-item">{user.displayName}</h5>
+        </div>
     );
 };
 

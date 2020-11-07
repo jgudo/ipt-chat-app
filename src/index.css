@@ -46,11 +46,19 @@ button:focus {
   outline: none;
 }
 
+button:disabled {
+  cursor: not-allowed;
+}
+
 input {
   padding: 10px;
   border-radius: 10px;
   border: 1px solid #cacaca;
   font-family: 'Poppins', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+input:read-only {
+  opacity: .7;
 }
 
 input:focus {

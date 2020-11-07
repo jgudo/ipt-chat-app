@@ -64,6 +64,33 @@ class Firebase {
     }
 }
 
+export const handleError = (e) => {
+    let error = '';
+
+    switch (e.code) {
+        case 'auth/network-request-failed':
+            error = 'Network error has occured. Please try again.';
+            break;
+        case 'auth/email-already-in-use':
+            error = 'Email is already in use. Please use another email';
+            break;
+        case 'auth/wrong-password':
+            error = 'Incorrect email or password';
+            break;
+        case 'auth/user-not-found':
+            error = 'Incorrect email or password';
+            break;
+        case 'auth/reset-password-error':
+            error = 'Failed to send password reset email. Did you type your email correctly?';
+            break;
+        default:
+            error = e.message;
+            break;
+    }
+
+    return error;
+}
+
 const firebase = new Firebase();
 
 export default firebase;

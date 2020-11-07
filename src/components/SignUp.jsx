@@ -1,11 +1,13 @@
 import React, { useState } from 'react';
-import firebase from 'services/firebase';
+import firebase, { handleError } from 'services/firebase';
 
 const SignUp = () => {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [name, setName] = useState('');
     const [error, setError] = useState({});
+    const [authStatus, setAuthStatus] = useState(null);
+    const [isLoading, setLoading] = useState(false);
 
     const onEmailChange = (e) => {
         const regex = /^\w+([.-]?\w+)*@\w+([.-]?\w+)*(\.\w{2,3})+$/;
@@ -55,6 +57,8 @@ const SignUp = () => {
 
         if (email && password && name && Object.keys(error).every(key => !error[key])) {
             try {
+                setLoading(true);
+                setAuthStatus(null);
                 const { user } = await firebase.createUser(email, password);
                 await firebase.addUser(user.uid, {
                     displayName: name,
@@ -63,9 +67,12 @@ const SignUp = () => {
                     joined: new Date().getTime(),
                     isAuth: true
                 });
+                setLoading(false);
 
             } catch (e) {
-                throw new Error('Cannot create user', e);
+                const error = handleError(e);
+                setAuthStatus(error);
+                setLoading(false);
             }
         }
     };
@@ -76,6 +83,7 @@ const SignUp = () => {
 
     return (
         <div className="signup">
+            {authStatus && <h5 style={{ marginTop: 0, width: '100%', color: 'red', textAlign: 'center' }}>{authStatus}</h5>}
             <h1 className="form-title">Sign Up</h1>
             <form id="signup-form">
                 <div className={errorClassName('name')}>
@@ -86,6 +94,7 @@ const SignUp = () => {
                         onChange={onNameChange}
                         placeholder="John Doe"
                         required
+                        readOnly={isLoading}
                         maxLength={30}
                         style={{ textTransform: 'capitalize' }}
                         value={name}
@@ -100,6 +109,7 @@ const SignUp = () => {
                         onChange={onEmailChange}
                         placeholder="example@gmail.com"
                         required
+                        readOnly={isLoading}
                         maxLength={30}
                         value={email}
                     />
@@ -112,17 +122,19 @@ const SignUp = () => {
                         onChange={onPasswordChange}
                         placeholder="Enter your password"
                         required
+                        readOnly={isLoading}
                         maxLength={40}
                         value={password}
                     />
                 </div>
                 <br />
-                <button type="submit" onClick={onSubmit}>Sign Up</button>
+                <button disabled={isLoading} type="submit" onClick={onSubmit}>Sign Up</button>
             </form>
             <br />
             <div className="signin-social-login">
                 <button
                     className="btn-facebook btn-icon"
+                    disabled={isLoading}
                     onClick={firebase.signInWithFacebook}
                 >
                     <i className="fab fa-facebook" />
@@ -130,6 +142,7 @@ const SignUp = () => {
                 </button>
                 <button
                     className="btn-google btn-icon"
+                    disabled={isLoading}
                     onClick={firebase.signInWithGoogle}
                 >
                     <i className="fab fa-google" />

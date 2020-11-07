@@ -1,4 +1,13 @@
 
+main {
+  width: 100%;
+  height: 100vh;
+  position: fixed;
+  top: 0;
+  /* margin-top: 60px; */
+}
+
+
 .btn-facebook {
   background: var(--color-facebook);
   color: #fff;
@@ -25,6 +34,7 @@
 }
 
 .btn-icon span { flex-grow: 1; }
+.btn-icon i { margin-right: 10px; }
 
 .navbar {
   width: 100%;
@@ -52,27 +62,41 @@
   align-items: center;
 }
 
+.navbar__item-left {
+  display: flex;
+  align-items: center;
+}
+
+.navbar__actions {
+  margin-left: 50px;
+  display: flex;
+}
+
 .avatar__profile {
   display: flex;
   align-items: center;
+  padding-right: 10px;
+  background: #fff;
+  color: var(--text-color);
+  height: 42px;
+  border-radius: 22px;
+  padding: 0 10px 0 2px;
 }
 
 .avatar__profile-item {
   list-style-type: none;
 }
 
-.avatar__img {
-  width: 50px;
-  height: 50px;
-  border-radius: 50%;
+.avatar__profile h5 {
+  margin: 0;
+  text-transform: capitalize;
+  margin-left: 10px;
 }
 
-main {
-  width: 100%;
-  height: 100vh;
-  position: absolute;
-  top: 0;
-  padding-top: 70px;
+.avatar__img {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
 }
 
 .home {
@@ -157,4 +181,54 @@ main {
 
 .input-error label {
   color: red !important;
+}
+
+
+.chatroom {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  padding-top: 60px;
+}
+
+.chatroom-sidebar {
+  width: 30%;
+}
+
+.chatroom-chat {
+  width: 70%;
+}
+
+.chatbox {
+  width: 100%;
+  height: 100%;
+  position: relative;
+}
+
+.chatbox-input {
+  width: 100%;
+  position: absolute;
+  bottom: 0;
+  display: flex;
+}
+
+.chatbox-input input {
+  width: 100%;
+}
+
+.active-users {
+  width: 100%;
+  height: 100%;
+  background: #1a1a1a;
+  padding: 0 10px;
+}
+
+.active-users-item {
+  display: flex;
+  align-items: center;
+}
+
+.active-users-name {
+  color: #fff;
+  margin-left: 10px;
 }

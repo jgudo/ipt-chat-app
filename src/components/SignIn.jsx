@@ -1,10 +1,12 @@
 import React, { useState } from 'react';
-import firebase from 'services/firebase';
+import firebase, { handleError } from 'services/firebase';
 
 const SignIn = () => {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [error, setError] = useState({});
+    const [authStatus, setAuthStatus] = useState(null);
+    const [isLoading, setLoading] = useState(false);
 
     const onEmailChange = (e) => {
         const regex = /^\w+([.-]?\w+)*@\w+([.-]?\w+)*(\.\w{2,3})+$/;
@@ -35,11 +37,21 @@ const SignIn = () => {
         setPassword(val);
     };
 
-    const onSubmit = (e) => {
+    const onSubmit = async (e) => {
         e.preventDefault();
 
         if (email && password && !error.name && !error.email) {
-            firebase.signIn(email, password);
+            try {
+                setLoading(true);
+                setAuthStatus(null);
+                await firebase.signIn(email, password);
+                setLoading(false);
+            } catch (e) {
+                const error = handleError(e);
+                setAuthStatus(error);
+                setLoading(false);
+                setPassword('');
+            }
         }
     };
 
@@ -49,6 +61,7 @@ const SignIn = () => {
 
     return (
         <div className="signin">
+            {authStatus && <h5 style={{ marginTop: 0, width: '100%', color: 'red', textAlign: 'center' }}>{authStatus}</h5>}
             <h1 className="form-title">Sign In</h1>
             <form id="signin-form">
                 <div className={errorClassName('email')}>
@@ -59,6 +72,7 @@ const SignIn = () => {
                         onChange={onEmailChange}
                         placeholder="example@gmail.com"
                         required
+                        readOnly={isLoading}
                         maxLength={30}
                         value={email}
                     />
@@ -72,17 +86,19 @@ const SignIn = () => {
                         onChange={onPasswordChange}
                         placeholder="Enter your password"
                         required
+                        readOnly={isLoading}
                         maxLength={40}
                         value={password}
                     />
                 </div>
                 <br />
-                <button type="submit" onClick={onSubmit}>Sign In</button>
+                <button disabled={isLoading} type="submit" onClick={onSubmit}>Sign In</button>
                 <br />
             </form>
             <div className="signin-social-login">
                 <button
                     className="btn-facebook btn-icon"
+                    disabled={isLoading}
                     onClick={firebase.signInWithFacebook}
                 >
                     <i className="fab fa-facebook" />
@@ -90,6 +106,7 @@ const SignIn = () => {
                 </button>
                 <button
                     className="btn-google btn-icon"
+                    disabled={isLoading}
                     onClick={firebase.signInWithGoogle}
                 >
                     <i className="fab fa-google" />

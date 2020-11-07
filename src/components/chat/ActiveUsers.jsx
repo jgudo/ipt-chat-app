@@ -2,11 +2,11 @@ import React from 'react';
 
 const ActiveUsers = ({ users }) => {
     return (
-        <div>
+        <div className="active-users">
             {users && users.map((user) => (
-                <div key={user.uid}>
-                    <img src={user.photoURL} alt="" />
-                    <h5>{user.displayName}</h5>
+                <div className="active-users-item" key={user.uid}>
+                    <img className="avatar__img" src={user.photoURL} alt="" />
+                    <h5 className="active-users-name">{user.displayName}</h5>
                 </div>
             ))}
         </div>

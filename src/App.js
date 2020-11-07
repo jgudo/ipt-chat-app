@@ -17,9 +17,9 @@ function App() {
 
   return (
     <>
-      <Navbar user={user} clearData={clearData} />
       <BrowserRouter>
         <main>
+          <Navbar user={user} clearData={clearData} />
           <Switch>
             <PublicRoute exact path="/" isAuth={user.isAuth} component={Home} />
             <PrivateRoute path="/join_room" isAuth={user.isAuth} component={JoinRoom} />

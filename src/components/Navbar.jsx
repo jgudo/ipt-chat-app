@@ -1,10 +1,11 @@
 import React from 'react';
-import { useHistory } from 'react-router-dom';
+import { useHistory, useLocation } from 'react-router-dom';
 import firebase from 'services/firebase';
 import Avatar from './Avatar';
 
 const Navbar = ({ user, clearData }) => {
     const history = useHistory();
+    const { pathname } = useLocation();
 
     const onSignOut = async () => {
         try {
@@ -25,11 +26,28 @@ const Navbar = ({ user, clearData }) => {
 
     return (
         <nav className="navbar">
-            <h3 className="navbar__logo">Chat App</h3>
+            <div className="navbar__item-left">
+                <h3 className="navbar__logo">Chat App</h3>
+                {user.isAuth && (
+                    <div className="navbar__actions">
+                        {pathname !== '/join_room' && (
+                            <button className="btn-icon" onClick={onJoinRoom}>
+                                <i className="fa fa-sign-in-alt" />
+                                <span>Join Room</span>
+                            </button>
+                        )}
+                        {pathname !== '/create_room' && (
+                            <button className="btn-icon" onClick={onCreateRoom}>
+                                <i className="fa fa-plus" />
+                                <span>Create Room</span>
+                            </button>
+                        )}
+                    </div>
+
+                )}
+            </div>
             {user.isAuth && (
                 <div className="navbar__user">
-                    <button onClick={onJoinRoom}>Join Room</button>
-                    <button onClick={onCreateRoom}>Create Room</button>
                     <Avatar user={user} />
                     <button onClick={onSignOut}>Sign Out</button>
                 </div>

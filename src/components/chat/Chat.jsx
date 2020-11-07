@@ -3,12 +3,13 @@ import { RoomContext } from 'context/RoomProvider';
 import firebase from 'services/firebase';
 import ActiveUsers from './ActiveUsers';
 import { AppContext } from 'context/Provider';
+import Header from './Header';
+import ChatBox from './ChatBox';
 
 const Chat = ({ history, match }) => {
     const id = match.params.roomid;
     const { room, setRoom } = useContext(RoomContext);
     const { user } = useContext(AppContext);
-    const [message, setMessage] = useState('');
 
     useEffect(() => {
         const unsubscribe = firebase
@@ -44,11 +45,7 @@ const Chat = ({ history, match }) => {
             })
     }, [id]);
 
-    const onMessageInputChange = (e) => {
-        setMessage(e.target.value);
-    };
-
-    const onSendMessage = () => {
+    const onSendMessage = (message) => {
         firebase.sendMessage(id, {
             sender: user.uid,
             message,
@@ -57,22 +54,13 @@ const Chat = ({ history, match }) => {
     };
 
     return (
-        <div>
-            <h1>Chat Room: {room.roomName}</h1>
-            <ActiveUsers users={room.users} />
-            {room.chats && room.chats.map((msg) => (
-                <span key={msg.createdAt}>{msg.message}</span>
-            ))}
-
-            <div style={{ position: 'fixed', bottom: 0 }}>
-                <input
-                    type="text"
-                    placeholder="Say something..."
-                    onChange={onMessageInputChange}
-                    style={{ padding: '15px 5px' }}
-                    value={message}
-                />
-                <button onClick={onSendMessage}>Send</button>
+        <div className="chatroom">
+            <div className="chatroom-sidebar">
+                <Header roomName={room.roomName} />
+                <ActiveUsers users={room.users} />
+            </div>
+            <div className="chatroom-chat">
+                <ChatBox room={room} onSendMessage={onSendMessage} />
             </div>
         </div>
     );
