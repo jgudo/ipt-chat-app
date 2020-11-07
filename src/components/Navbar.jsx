@@ -25,13 +25,19 @@ const Navbar = ({ user, clearData }) => {
         history.push('/create_room');
     };
 
+    const onClickHome = () => {
+        if (user.isAuth) return;
+
+        history.push('/');
+    }
+
     return (
         <nav className="navbar">
             <div className="navbar__item-left">
-                <Link className="btn-link navbar__logo" to="/">
+                <div onClick={onClickHome} className="btn-link navbar__logo" to="/">
                     <img src={logo} alt="" />
                     <h3 className="navbar__logo-name">IPT Chat App</h3>
-                </Link>
+                </div>
                 {user.isAuth && (
                     <div className="navbar__actions">
                         {pathname !== '/join_room' && (

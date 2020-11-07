@@ -3,7 +3,7 @@ import logodark from 'images/logo-dark.png';
 
 const LoadingScreen = ({ info }) => {
     return (
-        <div className="loader">
+        <div className="loader fade">
             <img src={logodark} alt="" style={{ width: '100px' }} />
             <h1>IPT Chat App</h1>
             <br />

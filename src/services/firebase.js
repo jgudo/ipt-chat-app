@@ -63,7 +63,6 @@ class Firebase {
     }
 
     sendMessage = async (id, message) => {
-
         this.db.collection('rooms').doc(id).collection('chats').add(message);
         // this.db.collection('rooms').doc(id).collection('chats').doc(id).update({ chats: newChats });
         // this.db.collection(id).add(message);
