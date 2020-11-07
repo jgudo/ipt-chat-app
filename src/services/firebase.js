@@ -49,18 +49,35 @@ class Firebase {
 
     createRoom = (roomID, data) => this.db.collection('rooms').doc(roomID).set(data);
 
+    joinRoom = async (roomID, user) => {
+        const usersRef = this.db.collection('rooms').doc(roomID);
+        const query = await usersRef.get('users');
+        const users = await query.data().users;
+        console.log(users);
+        // const newChats = [...chats, message];
+
+        // console.log(chats);
+        // console.log(newChats);
+
+        // this.db.collection('rooms').doc(id).update({ chats: newChats });
+    }
+
     sendMessage = async (id, message) => {
-        const chatsRef = this.db.collection('rooms').doc(id);
-        const query = await chatsRef.get('users');
-        const chats = query.data().chats;
-        const newChats = [...chats, message];
 
-        console.log(chats);
-        console.log(newChats);
-
-        this.db.collection('rooms').doc(id).update({ chats: newChats });
+        this.db.collection('rooms').doc(id).collection('chats').add(message);
         // this.db.collection('rooms').doc(id).collection('chats').doc(id).update({ chats: newChats });
         // this.db.collection(id).add(message);
+        // const chatsRef = this.db.collection('rooms').doc(id);
+        // const query = await chatsRef.get('chats');
+        // const chats = await query.data().chats;
+        // const newChats = [...chats, message];
+
+        // console.log(chats);
+        // console.log(newChats);
+
+        // this.db.collection('rooms').doc(id).update({ chats: newChats });
+        // // this.db.collection('rooms').doc(id).collection('chats').doc(id).update({ chats: newChats });
+        // // this.db.collection(id).add(message);
     }
 }
 

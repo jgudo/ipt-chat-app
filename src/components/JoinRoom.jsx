@@ -31,16 +31,20 @@ const JoinRoom = ({ history }) => {
     };
 
     return (
-        <div>
-            <h1>Join Room</h1>
-            {error && <span>{error}</span>}
-            <input
-                type="text"
-                placeholder="Enter Room ID"
-                onChange={onRoomInputChange}
-                value={roomID}
-            />
-            <button onClick={onClickJoin}>Join Room</button>
+        <div className="fade joinroom">
+            <div className="joinroom-wrapper">
+                <h1>Join Room</h1>
+                {error && <span>{error}</span>}
+                <div className="joinroom-input">
+                    <input
+                        type="text"
+                        placeholder="Enter Room ID"
+                        onChange={onRoomInputChange}
+                        value={roomID}
+                    />
+                    <button onClick={onClickJoin}>Join Room</button>
+                </div>
+            </div>
         </div>
     );
 };

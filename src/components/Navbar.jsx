@@ -1,7 +1,8 @@
 import React from 'react';
-import { useHistory, useLocation } from 'react-router-dom';
+import { Link, useHistory, useLocation } from 'react-router-dom';
 import firebase from 'services/firebase';
 import Avatar from './Avatar';
+import logo from 'images/logo.png';
 
 const Navbar = ({ user, clearData }) => {
     const history = useHistory();
@@ -27,7 +28,10 @@ const Navbar = ({ user, clearData }) => {
     return (
         <nav className="navbar">
             <div className="navbar__item-left">
-                <h3 className="navbar__logo">IPT Chat App</h3>
+                <Link className="btn-link navbar__logo" to="/">
+                    <img src={logo} alt="" />
+                    <h3 className="navbar__logo-name">IPT Chat App</h3>
+                </Link>
                 {user.isAuth && (
                     <div className="navbar__actions">
                         {pathname !== '/join_room' && (

@@ -61,6 +61,10 @@ input:read-only {
   opacity: .7;
 }
 
+input:read-only:hover {
+  cursor: not-allowed;
+}
+
 input:focus {
   outline: none;
   border: 1px solid var(--primary-color);

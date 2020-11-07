@@ -5,7 +5,7 @@ import LoadingScreen from 'components/LoadingScreen';
 export const AppContext = createContext({});
 
 const Provider = ({ children }) => {
-    const [isLoading, setLoading] = useState(false);
+    const [isLoading, setLoading] = useState(true);
     const [user, setUser] = useState({});
 
     useEffect(() => {
@@ -46,7 +46,7 @@ const Provider = ({ children }) => {
     };
 
     return (
-        <AppContext.Provider value={{ user, clearData }}>
+        <AppContext.Provider value={{ user, clearData, isLoading, setLoading }}>
             {isLoading ? <LoadingScreen /> : children}
         </AppContext.Provider>
     )

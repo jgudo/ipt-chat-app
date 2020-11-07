@@ -75,6 +75,16 @@ const SignUp = () => {
                 setLoading(false);
             }
         }
+
+        // use conditionals to only run once the setError on methods below
+        // necessary due to asynchronicity of setting state
+        if (!name) {
+            onNameChange({ target: { value: name } });
+        } else if (!email) {
+            onEmailChange({ target: { value: email } });
+        } else {
+            onPasswordChange({ target: { value: password } });
+        }
     };
 
     const errorClassName = (field) => {
@@ -82,8 +92,12 @@ const SignUp = () => {
     };
 
     return (
-        <div className="signup">
-            {authStatus && <h5 style={{ marginTop: 0, width: '100%', color: 'red', textAlign: 'center' }}>{authStatus}</h5>}
+        <div className="signup fade" style={{ border: `${authStatus ? '1px solid red' : 'none'}` }}>
+            {authStatus && (
+                <div className="toast">
+                    <h5>{authStatus}</h5>
+                </div>
+            )}
             <h1 className="form-title">Sign Up</h1>
             <form id="signup-form">
                 <div className={errorClassName('name')}>
@@ -101,31 +115,34 @@ const SignUp = () => {
                     />
                 </div>
                 <br />
-                <div className={errorClassName('email')}>
-                    <label className="form-label" htmlFor="email">{error.email ? error.email : 'Email'}</label>
-                    <input
-                        type="email"
-                        id="email"
-                        onChange={onEmailChange}
-                        placeholder="example@gmail.com"
-                        required
-                        readOnly={isLoading}
-                        maxLength={30}
-                        value={email}
-                    />
-                </div>
-                <br />
-                <div className={errorClassName('password')}>
-                    <label className="form-label" htmlFor="password">{error.password ? error.password : 'Password'}</label>
-                    <input
-                        type="password"
-                        onChange={onPasswordChange}
-                        placeholder="Enter your password"
-                        required
-                        readOnly={isLoading}
-                        maxLength={40}
-                        value={password}
-                    />
+                <div className="d-flex">
+                    <div className={errorClassName('email')}>
+                        <label className="form-label" htmlFor="email">{error.email ? error.email : 'Email'}</label>
+                        <input
+                            type="email"
+                            id="email"
+                            onChange={onEmailChange}
+                            placeholder="example@gmail.com"
+                            required
+                            readOnly={isLoading}
+                            maxLength={30}
+                            value={email}
+                        />
+                    </div>
+                    <br />
+                    <div className={errorClassName('password')}>
+                        <label className="form-label" htmlFor="password">{error.password ? error.password : 'Password'}</label>
+                        <input
+                            id="password"
+                            type="password"
+                            onChange={onPasswordChange}
+                            placeholder="Enter your password"
+                            required
+                            readOnly={isLoading}
+                            maxLength={40}
+                            value={password}
+                        />
+                    </div>
                 </div>
                 <br />
                 <button disabled={isLoading} type="submit" onClick={onSubmit}>Sign Up</button>

@@ -44,22 +44,27 @@ const CreateRoom = ({ history }) => {
     }
 
     return (
-        <div>
-            <h1>Create Room</h1>
-            <input
-                type="text"
-                placeholder="Room Name [ex: Holy Shit]"
-                onChange={onRoomNameChange}
-                value={roomName}
-            />
-            <br />
-            <input
-                type="text"
-                placeholder="Enter Room ID"
-                onChange={onRoomIDChange}
-                value={roomID}
-            />
-            <button onClick={onClickCreate}>Create Room</button>
+        <div className="fade createroom">
+            <div className="createroom-wrapper">
+                <h1>Create Room</h1>
+                <div className="createroom-input">
+                    <input
+                        type="text"
+                        placeholder="Room Name [ex: Holy Shit]"
+                        onChange={onRoomNameChange}
+                        value={roomName}
+                    />
+                    <br />
+                    <input
+                        type="text"
+                        placeholder="Enter Room ID"
+                        onChange={onRoomIDChange}
+                        value={roomID}
+                    />
+                    <br />
+                    <button onClick={onClickCreate}>Create Room</button>
+                </div>
+            </div>
         </div>
     );
 };

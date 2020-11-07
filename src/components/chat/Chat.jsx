@@ -49,6 +49,7 @@ const Chat = ({ history, match }) => {
         firebase.sendMessage(id, {
             sender: user.uid,
             message,
+            photoURL: user.photoURL,
             createdAt: new Date().getTime()
         });
     };

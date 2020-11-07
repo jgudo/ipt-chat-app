@@ -28,8 +28,6 @@ const SignIn = () => {
 
         if (val.length === 0) {
             setError({ ...error, password: 'Password is required.' });
-        } else if (val.length < 8) {
-            setError({ ...error, password: 'Password length should be greater than 8 characters' });
         } else {
             setError({ ...error, password: '' });
         }
@@ -53,6 +51,15 @@ const SignIn = () => {
                 setPassword('');
             }
         }
+
+        // use conditionals to only run once the setError on methods below
+        // necessary due to asynchronicity of setting state
+
+        if (!email) {
+            onEmailChange({ target: { value: email } });
+        } else {
+            onPasswordChange({ target: { value: password } });
+        }
     };
 
     const errorClassName = (field) => {
@@ -60,8 +67,18 @@ const SignIn = () => {
     };
 
     return (
-        <div className="signin">
-            {authStatus && <h5 style={{ marginTop: 0, width: '100%', color: 'red', textAlign: 'center' }}>{authStatus}</h5>}
+        <div
+            className="signin fade"
+            style={{
+                border: `${authStatus ? '1px solid red' : 'none'}`,
+                opacity: `${isLoading ? .5 : 1}`
+            }}
+        >
+            {authStatus && (
+                <div className="toast">
+                    <h5>{authStatus}</h5>
+                </div>
+            )}
             <h1 className="form-title">Sign In</h1>
             <form id="signin-form">
                 <div className={errorClassName('email')}>
@@ -86,13 +103,22 @@ const SignIn = () => {
                         onChange={onPasswordChange}
                         placeholder="Enter your password"
                         required
+                        id="password"
                         readOnly={isLoading}
                         maxLength={40}
                         value={password}
                     />
                 </div>
                 <br />
-                <button disabled={isLoading} type="submit" onClick={onSubmit}>Sign In</button>
+                <button
+                    className="btn-icon"
+                    disabled={isLoading}
+                    type="submit"
+                    onClick={onSubmit}
+                >
+                    {isLoading && <div className="spinner spinner-light" />}
+                    <span>Sign In</span>
+                </button>
                 <br />
             </form>
             <div className="signin-social-login">
