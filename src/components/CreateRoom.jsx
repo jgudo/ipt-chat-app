@@ -5,6 +5,7 @@ import firebase from 'services/firebase';
 
 const CreateRoom = ({ history }) => {
     const [roomID, setRoomID] = useState('');
+    const [isLoading, setLoading] = useState(false);
     const [roomName, setRoomName] = useState('');
     const [error, setError] = useState(null);
     const { setRoom } = useContext(RoomContext);
@@ -21,11 +22,14 @@ const CreateRoom = ({ history }) => {
     const onClickCreate = async () => {
         if (roomID) {
             try {
+                setLoading(true);
+                setError('');
                 const query = await firebase.getRoom(roomID);
                 const roomExists = await query.data();
 
                 if (roomExists) {
                     setError('Room ID already exist.');
+                    setLoading(false);
                 } else {
                     const room = {
                         chats: [],
@@ -37,21 +41,25 @@ const CreateRoom = ({ history }) => {
                     setRoom({ ...room, id: roomID });
                     history.push(`/chat/${roomID}`);
                 }
+
             } catch (e) {
                 console.log('Error fetching room.');
+                setLoading(false);
             }
         }
     }
 
     return (
-        <div className="fade createroom">
+        <div className="fade createroom" style={{ opacity: `${isLoading ? .5 : 1}` }}>
             <div className="createroom-wrapper">
                 <h1>Create Room</h1>
+                {error && <span className="form-label" style={{ color: 'red' }}>{error}</span>}
                 <div className="createroom-input">
                     <input
                         type="text"
                         placeholder="Room Name [ex: Holy Shit]"
                         onChange={onRoomNameChange}
+                        readOnly={isLoading}
                         value={roomName}
                     />
                     <br />
@@ -59,10 +67,13 @@ const CreateRoom = ({ history }) => {
                         type="text"
                         placeholder="Enter Room ID"
                         onChange={onRoomIDChange}
+                        readOnly={isLoading}
                         value={roomID}
                     />
                     <br />
-                    <button onClick={onClickCreate}>Create Room</button>
+                    <button className="btn-facebook" disabled={isLoading} onClick={onClickCreate}>
+                        {isLoading ? 'Creating Rooom...' : 'Create Room'}
+                    </button>
                 </div>
             </div>
         </div>

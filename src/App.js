@@ -10,6 +10,7 @@ import { useContext } from 'react';
 import { AppContext } from 'context/Provider';
 import './App.css';
 import CreateRoom from 'components/CreateRoom';
+import BottomNavigation from 'components/BottomNavigation';
 
 
 function App() {
@@ -27,6 +28,7 @@ function App() {
             <PrivateRoute path="/chat/:roomid" isAuth={user.isAuth} component={Chat} />
             <Route component={PageNotFound} />
           </Switch>
+          {window.screen.width <= 480 && <BottomNavigation user={user} />}
         </main>
       </BrowserRouter>
     </>

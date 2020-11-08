@@ -15,7 +15,7 @@ const SignIn = () => {
         if (val.length === 0) {
             setError({ ...error, email: 'Email is required.' });
         } else if (!regex.test(val)) {
-            setError({ ...error, email: 'Invalid email' });
+            setError({ ...error, email: 'Invalid email format.' });
         } else {
             setError({ ...error, email: '' });
         }
@@ -61,6 +61,28 @@ const SignIn = () => {
             onPasswordChange({ target: { value: password } });
         }
     };
+
+    const onSignInFacebook = async () => {
+        setLoading(true);
+        try {
+            await firebase.signInWithFacebook();
+        } catch (e) {
+            const error = handleError(e);
+            setAuthStatus(error);
+            setLoading(false);
+        }
+    }
+
+    const onSignInGoogle = async () => {
+        setLoading(true);
+        try {
+            await firebase.signInWithGoogle();
+        } catch (e) {
+            const error = handleError(e);
+            setAuthStatus(error);
+            setLoading(false);
+        }
+    }
 
     const errorClassName = (field) => {
         return error[field] ? 'form-field input-error' : 'form-field';
@@ -117,7 +139,7 @@ const SignIn = () => {
                     onClick={onSubmit}
                 >
                     {isLoading && <div className="spinner spinner-light" />}
-                    <span>Sign In</span>
+                    <span>{isLoading ? 'Signing In...' : 'Sign In'}</span>
                 </button>
                 <br />
             </form>
@@ -125,7 +147,7 @@ const SignIn = () => {
                 <button
                     className="btn-facebook btn-icon"
                     disabled={isLoading}
-                    onClick={firebase.signInWithFacebook}
+                    onClick={onSignInFacebook}
                 >
                     <i className="fab fa-facebook" />
                     <span>Facebook</span>
@@ -133,7 +155,7 @@ const SignIn = () => {
                 <button
                     className="btn-google btn-icon"
                     disabled={isLoading}
-                    onClick={firebase.signInWithGoogle}
+                    onClick={onSignInGoogle}
                 >
                     <i className="fab fa-google" />
                     <span>Google</span>

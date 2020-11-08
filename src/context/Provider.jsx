@@ -18,7 +18,7 @@ const Provider = ({ children }) => {
                 console.log(userFromDb);
 
                 const userObj = {
-                    photoURL: photoURL ? photoURL : `https://ui-avatars.com/api/?name=${user.displayName}`,
+                    photoURL: photoURL ? photoURL : `https://avatar.oxro.io/avatar.svg?name=${user.displayName}`,
                     displayName,
                     email,
                     uid,
@@ -34,7 +34,8 @@ const Provider = ({ children }) => {
 
                 console.log(userData);
             } else {
-                console.log('Cannot sign in')
+                console.log('Cannot sign in');
+                setUser({});
             }
 
             setLoading(false);

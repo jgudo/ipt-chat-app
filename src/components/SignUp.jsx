@@ -16,7 +16,7 @@ const SignUp = () => {
         if (val.length === 0) {
             setError({ ...error, email: 'Email is required.' });
         } else if (!regex.test(val)) {
-            setError({ ...error, email: 'Invalid email' });
+            setError({ ...error, email: 'Invalid email format.' });
         } else {
             setError({ ...error, email: '' });
         }
@@ -30,7 +30,7 @@ const SignUp = () => {
         if (val.length === 0) {
             setError({ ...error, password: 'Password is required.' });
         } else if (val.length < 8) {
-            setError({ ...error, password: 'Password length should be greater than 8 characters' });
+            setError({ ...error, password: 'Should be greater than 8 characters' });
         } else {
             setError({ ...error, password: '' });
         }
@@ -52,6 +52,36 @@ const SignUp = () => {
         setName(val);
     };
 
+    const capitalizeString = (phrase) => {
+        return phrase
+            .toLowerCase()
+            .split(' ')
+            .map(word => word.charAt(0).toUpperCase() + word.slice(1))
+            .join(' ');
+    };
+
+    const onSignInFacebook = async () => {
+        setLoading(true);
+        try {
+            await firebase.signInWithFacebook();
+        } catch (e) {
+            const error = handleError(e);
+            setAuthStatus(error);
+            setLoading(false);
+        }
+    }
+
+    const onSignInGoogle = async () => {
+        setLoading(true);
+        try {
+            await firebase.signInWithGoogle();
+        } catch (e) {
+            const error = handleError(e);
+            setAuthStatus(error);
+            setLoading(false);
+        }
+    }
+
     const onSubmit = async (e) => {
         e.preventDefault();
 
@@ -60,10 +90,12 @@ const SignUp = () => {
                 setLoading(true);
                 setAuthStatus(null);
                 const { user } = await firebase.createUser(email, password);
+                const capsName = capitalizeString(name);
+
                 await firebase.addUser(user.uid, {
-                    displayName: name,
+                    displayName: capsName,
                     email,
-                    photoURL: `https://ui-avatars.com/api/?name=${name}`,
+                    photoURL: `https://avatar.oxro.io/avatar.svg?name=${capsName}`,
                     joined: new Date().getTime(),
                     isAuth: true
                 });
@@ -92,13 +124,17 @@ const SignUp = () => {
     };
 
     return (
-        <div className="signup fade" style={{ border: `${authStatus ? '1px solid red' : 'none'}` }}>
+        <div className="signup fade" style={{
+            border: `${authStatus ? '1px solid red' : 'none'}`,
+            opacity: `${isLoading ? .5 : 1}`
+        }}
+        >
             {authStatus && (
                 <div className="toast">
                     <h5>{authStatus}</h5>
                 </div>
             )}
-            <h1 className="form-title">Sign Up</h1>
+            <h1 className="form-title">Create Account</h1>
             <form id="signup-form">
                 <div className={errorClassName('name')}>
                     <label className="form-label" htmlFor="name">{error.name ? error.name : 'Display Name'}</label>
@@ -145,14 +181,16 @@ const SignUp = () => {
                     </div>
                 </div>
                 <br />
-                <button disabled={isLoading} type="submit" onClick={onSubmit}>Sign Up</button>
+                <button disabled={isLoading} type="submit" onClick={onSubmit}>
+                    {isLoading ? 'Signing Up...' : 'Sign Up'}
+                </button>
             </form>
             <br />
             <div className="signin-social-login">
                 <button
                     className="btn-facebook btn-icon"
                     disabled={isLoading}
-                    onClick={firebase.signInWithFacebook}
+                    onClick={onSignInFacebook}
                 >
                     <i className="fab fa-facebook" />
                     <span>Facebook</span>
@@ -160,7 +198,7 @@ const SignUp = () => {
                 <button
                     className="btn-google btn-icon"
                     disabled={isLoading}
-                    onClick={firebase.signInWithGoogle}
+                    onClick={onSignInGoogle}
                 >
                     <i className="fab fa-google" />
                     <span>Google</span>

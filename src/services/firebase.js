@@ -23,7 +23,7 @@ class Firebase {
 
     getUser = (id) => this.db.collection('users').doc(id).get();
 
-    generateUserKey = () => this.db.collection('users').doc().id;
+    generateAvatarKey = () => this.db.collection('avatars').doc().id;
 
     createUser = (email, password) => this.auth.createUserWithEmailAndPassword(email, password);
 
@@ -74,12 +74,9 @@ class Firebase {
             const roomRef = this.db.collection('rooms').doc(roomID);
             const query = await roomRef.get();
             const room = await query.data();
-            console.log(room);
 
-            if (room.users) {
-                const filteredUsers = room.users.filter(u => u.uid !== userID);
-                await roomRef.set({ ...room, users: filteredUsers });
-            }
+            const filteredUsers = room.users.filter(u => u.uid !== userID);
+            await roomRef.set({ ...room, users: filteredUsers });
         } catch (e) {
             console.log(e);
         }
@@ -87,19 +84,13 @@ class Firebase {
 
     sendMessage = async (id, message) => {
         this.db.collection('rooms').doc(id).collection('chats').add(message);
-        // this.db.collection('rooms').doc(id).collection('chats').doc(id).update({ chats: newChats });
-        // this.db.collection(id).add(message);
-        // const chatsRef = this.db.collection('rooms').doc(id);
-        // const query = await chatsRef.get('chats');
-        // const chats = await query.data().chats;
-        // const newChats = [...chats, message];
+    }
 
-        // console.log(chats);
-        // console.log(newChats);
+    storeImage = async (id, imageFile) => {
+        const snapshot = await this.storage.ref('avatars').child(id).put(imageFile);
+        const downloadURL = await snapshot.ref.getDownloadURL();
 
-        // this.db.collection('rooms').doc(id).update({ chats: newChats });
-        // // this.db.collection('rooms').doc(id).collection('chats').doc(id).update({ chats: newChats });
-        // // this.db.collection(id).add(message);
+        return downloadURL;
     }
 }
 

@@ -34,16 +34,23 @@ const Chat = ({ history, match }) => {
                 });
             });
 
-        const unsubscribeRoom = firebase
+        const unsubscribeUsers = firebase
             .db.collection('rooms').doc(id)
             .onSnapshot((doc) => {
-                setRoom({ ...doc.data(), id: doc.id });
+                const data = doc.data();
+                if (data) {
+                    setRoom({ ...data, users: data.users })
+                    // setRoom({ ...data, id: doc.id });
+                } else {
+                    history.push('/join_room');
+                }
             });
+
         return () => {
             unsubscribeChats();
-            unsubscribeRoom();
+            unsubscribeUsers();
         }
-    }, [firebase])
+    }, [])
 
     useEffect(() => {
         firebase.getRoom(id)
@@ -57,6 +64,7 @@ const Chat = ({ history, match }) => {
                         });
                         setRoom({ ...doc.data(), id });
                         setChats(chats);
+                        firebase.joinRoom(id, user);
                     })
                 } else {
                     history.push('/join_room');
@@ -66,7 +74,7 @@ const Chat = ({ history, match }) => {
             })
             .catch((e) => {
                 history.push('/join_room');
-            })
+            });
 
         return () => {
             firebase.leaveRoom(id, user.uid);
@@ -85,10 +93,12 @@ const Chat = ({ history, match }) => {
 
     return isLoading ? <LoadingScreen info="Loading Chat Room, Please Wait..." /> : (
         <div className="chatroom">
-            <div className="chatroom-sidebar">
-                <Header room={room} />
-                <ActiveUsers users={room.users} />
-            </div>
+            {window.screen.width > 480 && (
+                <div className="chatroom-sidebar">
+                    <Header room={room} />
+                    <ActiveUsers users={room.users} />
+                </div>
+            )}
             <div className="chatroom-chat">
                 <ChatBox userID={user.uid} chats={chats} onSendMessage={onSendMessage} />
             </div>
