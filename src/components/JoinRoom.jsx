@@ -1,11 +1,11 @@
-import { RoomContext } from 'context/RoomProvider';
 import React, { useContext, useState } from 'react';
+import { AppContext } from 'context/Provider';
 import firebase from 'services/firebase';
 
 const JoinRoom = ({ history }) => {
     const [roomID, setRoomID] = useState('');
     const [error, setError] = useState(null);
-    const { setRoom } = useContext(RoomContext);
+    const { user } = useContext(AppContext);
 
     const onRoomInputChange = (e) => {
         setRoomID(e.target.value);
@@ -18,14 +18,15 @@ const JoinRoom = ({ history }) => {
                 const searchedRoom = await query.data();
 
                 if (searchedRoom) {
-                    setRoom({ ...searchedRoom });
+                    // setRoom({ ...searchedRoom });
+                    await firebase.joinRoom(roomID, user);
                     setError(null);
                     history.push(`/chat/${roomID}`);
                 } else {
                     setError('Room not found.');
                 }
             } catch (e) {
-                console.log('Error fetching room.');
+                console.log('Error fetching room.', e);
             }
         }
     };

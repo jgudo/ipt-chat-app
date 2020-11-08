@@ -50,16 +50,39 @@ class Firebase {
     createRoom = (roomID, data) => this.db.collection('rooms').doc(roomID).set(data);
 
     joinRoom = async (roomID, user) => {
-        const usersRef = this.db.collection('rooms').doc(roomID);
-        const query = await usersRef.get('users');
-        const users = await query.data().users;
-        console.log(users);
-        // const newChats = [...chats, message];
+        try {
+            const roomRef = this.db.collection('rooms').doc(roomID);
+            const query = await roomRef.get();
+            const room = await query.data();
+            let filteredUsers = [];
 
-        // console.log(chats);
-        // console.log(newChats);
+            if (room.users) {
+                filteredUsers = room.users.filter(u => u.uid !== user.uid);
+                const newUsers = [...filteredUsers, user];
+                await roomRef.set({ ...room, users: newUsers });
+            }
+        } catch (e) {
+            console.log(e);
+        }
+    }
 
-        // this.db.collection('rooms').doc(id).update({ chats: newChats });
+    leaveRoom = async (roomID, userID) => {
+        console.log('fired');
+        console.log('roomid', roomID);
+        console.log('userid', userID);
+        try {
+            const roomRef = this.db.collection('rooms').doc(roomID);
+            const query = await roomRef.get();
+            const room = await query.data();
+            console.log(room);
+
+            if (room.users) {
+                const filteredUsers = room.users.filter(u => u.uid !== userID);
+                await roomRef.set({ ...room, users: filteredUsers });
+            }
+        } catch (e) {
+            console.log(e);
+        }
     }
 
     sendMessage = async (id, message) => {
