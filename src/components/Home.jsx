@@ -1,11 +1,9 @@
-import React, { useState, useContext } from 'react';
-import { AppContext } from 'context/Provider';
+import React, { useState } from 'react';
 import SignIn from './SignIn';
 import SignUp from './SignUp';
 
 const Home = () => {
     const [activePage, setActivePage] = useState('signin');
-    const { isLoading } = useContext(AppContext);
     const tabClassName = (val) => {
         return val === activePage ? 'active' : '';
     }

@@ -1,12 +1,8 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { useHistory, useLocation } from 'react-router-dom';
-import firebase from 'services/firebase';
-import Avatar from './Avatar';
-import logo from 'images/logo.png';
 
 const BottomNavigation = ({ user, clearData }) => {
     const history = useHistory();
-    const [isSigningOut, setSigningOut] = useState(false);
     const { pathname } = useLocation();
 
     const onJoinRoom = () => {

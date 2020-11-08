@@ -50,6 +50,7 @@ const Chat = ({ history, match }) => {
             unsubscribeChats();
             unsubscribeUsers();
         }
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [])
 
     useEffect(() => {
@@ -79,6 +80,7 @@ const Chat = ({ history, match }) => {
         return () => {
             firebase.leaveRoom(id, user.uid);
         }
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [id]);
 
     const onSendMessage = (message) => {

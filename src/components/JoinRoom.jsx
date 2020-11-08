@@ -1,7 +1,6 @@
 import React, { useContext, useState } from 'react';
 import { AppContext } from 'context/Provider';
 import firebase from 'services/firebase';
-import useAuth from 'hooks/useAuth';
 
 const JoinRoom = ({ history }) => {
     const [roomID, setRoomID] = useState('');
