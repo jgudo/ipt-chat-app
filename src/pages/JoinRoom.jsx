@@ -1,12 +1,12 @@
-import React, { useContext, useState } from 'react';
-import { AppContext } from 'context/Provider';
+import { useUser } from 'context/UserProvider';
+import React, { useState } from 'react';
 import firebase from 'services/firebase';
 
 const JoinRoom = ({ history }) => {
     const [roomID, setRoomID] = useState('');
     const [error, setError] = useState(null);
     const [isLoading, setLoading] = useState(false);
-    const { user } = useContext(AppContext);
+    const { user } = useUser();
 
     const onRoomInputChange = (e) => {
         setRoomID(e.target.value);
@@ -26,10 +26,10 @@ const JoinRoom = ({ history }) => {
                     setError(null);
                     history.push(`/chat/${roomID}`);
                 } else {
+                    setLoading(false);
                     setError('Room not found.');
                 }
 
-                setLoading(false);
             } catch (e) {
                 console.log('Error fetching room.', e);
                 setLoading(false);
@@ -41,7 +41,8 @@ const JoinRoom = ({ history }) => {
         <div className="fade joinroom" style={{ opacity: `${isLoading ? .5 : 1}` }}>
             <div className="joinroom-wrapper">
                 <h1>Join Room</h1>
-                {error && <span className="form-label" style={{ color: 'red' }}>{error}</span>}
+                <p className="text-sm text-subtle">Join a room to start conversation with people.</p>
+                {error && <span className="form-label label--error">{error}</span>}
                 <div className="joinroom-input">
                     <input
                         type="text"

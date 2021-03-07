@@ -11,8 +11,7 @@ const Home = () => {
     return (
         <div className="home">
             <ul className="tab">
-                <li className={tabClassName('signin')} onClick={() => setActivePage('signin')}>Sign In</li>
-                <li style={{ margin: 0 }}>|</li>
+                <li className={tabClassName('signin')} onClick={() => setActivePage('signin')}>Login</li>
                 <li className={tabClassName('signup')} onClick={() => setActivePage('signup')}>Sign Up</li>
             </ul>
             {activePage === 'signin' ? <SignIn /> : <SignUp />}

@@ -1,4 +1,4 @@
-import React, { useState, createContext } from 'react';
+import React, { createContext, useContext, useState } from 'react';
 
 export const RoomContext = createContext({});
 
@@ -11,5 +11,11 @@ const RoomProvider = ({ children }) => {
         </RoomContext.Provider>
     );
 };
+
+export const useRoom = () => {
+    const { room, setRoom } = useContext(RoomContext);
+
+    return { room, setRoom };
+}
 
 export default RoomProvider;

@@ -101,7 +101,9 @@ const SignIn = () => {
                     <h5>{authStatus}</h5>
                 </div>
             )}
-            <h1 className="form-title">Sign In</h1>
+            <h1 className="form-title">Welcome</h1>
+            <span className="text-subtle text-sm">Login to continue</span>
+            <br />
             <form id="signin-form">
                 <div className={errorClassName('email')}>
                     <label className="form-label" htmlFor="email">{error.email ? error.email : 'Email'}</label>
@@ -133,7 +135,7 @@ const SignIn = () => {
                 </div>
                 <br />
                 <button
-                    className="btn-icon"
+                    className="btn-icon btn-accent"
                     disabled={isLoading}
                     type="submit"
                     onClick={onSubmit}

@@ -1,6 +1,6 @@
-import React, { useState, useEffect, createContext } from 'react';
-import firebase from 'services/firebase';
 import LoadingScreen from 'components/LoadingScreen';
+import React, { createContext, useContext, useEffect, useState } from 'react';
+import firebase from 'services/firebase';
 
 export const AppContext = createContext({});
 
@@ -53,5 +53,11 @@ const Provider = ({ children }) => {
         </AppContext.Provider>
     )
 };
+
+export const useUser = () => {
+    const { user, clearData } = useContext(AppContext);
+
+    return { user, clearData };
+}
 
 export default Provider;

@@ -1,6 +1,6 @@
-import { AppContext } from 'context/Provider';
-import { RoomContext } from 'context/RoomProvider';
-import React, { useContext, useState } from 'react';
+import { useRoom } from 'context/RoomProvider';
+import { useUser } from 'context/UserProvider';
+import React, { useState } from 'react';
 import firebase from 'services/firebase';
 
 const CreateRoom = ({ history }) => {
@@ -8,8 +8,8 @@ const CreateRoom = ({ history }) => {
     const [isLoading, setLoading] = useState(false);
     const [roomName, setRoomName] = useState('');
     const [error, setError] = useState(null);
-    const { setRoom } = useContext(RoomContext);
-    const { user } = useContext(AppContext);
+    const { setRoom } = useRoom()
+    const { user } = useUser();
 
     const onRoomIDChange = (e) => {
         setRoomID(e.target.value);
@@ -53,7 +53,7 @@ const CreateRoom = ({ history }) => {
         <div className="fade createroom" style={{ opacity: `${isLoading ? .5 : 1}` }}>
             <div className="createroom-wrapper">
                 <h1>Create Room</h1>
-                {error && <span className="form-label" style={{ color: 'red' }}>{error}</span>}
+                {error && <span className="form-label label--error">{error}</span>}
                 <div className="createroom-input">
                     <input
                         type="text"

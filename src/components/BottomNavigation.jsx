@@ -1,9 +1,10 @@
+import { useUser } from 'context/UserProvider';
 import React from 'react';
-import { useHistory, useLocation } from 'react-router-dom';
+import { useHistory } from 'react-router-dom';
 
-const BottomNavigation = ({ user, clearData }) => {
+const BottomNavigation = () => {
     const history = useHistory();
-    const { pathname } = useLocation();
+    const { user } = useUser();
 
     const onJoinRoom = () => {
         history.push('/join_room');
@@ -17,18 +18,14 @@ const BottomNavigation = ({ user, clearData }) => {
         <nav className="bottom-nav">
             {user.isAuth && (
                 <div className="navbar__actions">
-                    {pathname !== '/join_room' && (
-                        <button className="btn-icon" onClick={onJoinRoom}>
-                            <i className="fa fa-sign-in-alt" />
-                            <span>Join Room</span>
-                        </button>
-                    )}
-                    {pathname !== '/create_room' && (
-                        <button className="btn-icon" onClick={onCreateRoom}>
-                            <i className="fa fa-plus" />
-                            <span>Create Room</span>
-                        </button>
-                    )}
+                    <button className="btn-icon btn-primary-dark btn-small" onClick={onJoinRoom}>
+                        <i className="fa fa-sign-in-alt" />
+                        <span>Join Room</span>
+                    </button>
+                    <button className="btn-icon btn-accent btn-small" onClick={onCreateRoom}>
+                        <i className="fa fa-plus" />
+                        <span>Create Room</span>
+                    </button>
                 </div>
 
             )}

@@ -1,5 +1,5 @@
-import React, { useState, useRef, useEffect } from 'react';
 import moment from 'moment';
+import React, { useEffect, useRef, useState } from 'react';
 
 const ChatBox = ({ userID, chats, onSendMessage }) => {
     const [message, setMessage] = useState('');
@@ -39,7 +39,7 @@ const ChatBox = ({ userID, chats, onSendMessage }) => {
             <div className="chatbox" ref={chatboxRef}>
                 {chats.length === 0 && (
                     <div className="message-empty">
-                        <h4>No Messages.</h4>
+                        <h3>No Messages.</h3>
                         <p>Type something and hit Send.</p>
                     </div>
                 )}
@@ -65,7 +65,13 @@ const ChatBox = ({ userID, chats, onSendMessage }) => {
                     rows={5}
                     cols={37}
                 />
-                <button className="btn-facebook" onClick={sendMessage}>Send Message</button>
+                <button
+                    className="btn-icon btn-facebook"
+                    onClick={sendMessage}
+                >
+                    <i className="fa fa-paper-plane" />
+                    <span>Send Message</span>
+                </button>
             </div>
         </>
     );

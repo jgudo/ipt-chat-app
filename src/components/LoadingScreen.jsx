@@ -1,5 +1,5 @@
-import React from 'react';
 import logodark from 'images/logo-dark.png';
+import React from 'react';
 
 const LoadingScreen = ({ info }) => {
     return (

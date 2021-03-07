@@ -1,13 +1,15 @@
+import { useUser } from 'context/UserProvider';
+import logo from 'images/logo.png';
 import React, { useState } from 'react';
 import { useHistory, useLocation } from 'react-router-dom';
 import firebase from 'services/firebase';
 import Avatar from './Avatar';
-import logo from 'images/logo.png';
 
-const Navbar = ({ user, clearData }) => {
+const Navbar = () => {
     const history = useHistory();
     const [isSigningOut, setSigningOut] = useState(false);
     const { pathname } = useLocation();
+    const { user, clearData } = useUser();
 
     const onSignOut = async () => {
         try {
@@ -44,13 +46,13 @@ const Navbar = ({ user, clearData }) => {
                 {(user.isAuth && window.screen.width > 480) && (
                     <div className="navbar__actions">
                         {pathname !== '/join_room' && (
-                            <button className="btn-icon" onClick={onJoinRoom}>
+                            <button className="btn-icon btn-primary-dark btn-small" onClick={onJoinRoom}>
                                 <i className="fa fa-sign-in-alt" />
                                 <span>Join Room</span>
                             </button>
                         )}
                         {pathname !== '/create_room' && (
-                            <button className="btn-icon" onClick={onCreateRoom}>
+                            <button className="btn-icon btn-accent btn-small" onClick={onCreateRoom}>
                                 <i className="fa fa-plus" />
                                 <span>Create Room</span>
                             </button>
@@ -62,7 +64,13 @@ const Navbar = ({ user, clearData }) => {
             {user.isAuth && (
                 <div className="navbar__user">
                     <Avatar user={user} />
-                    <button disabled={isSigningOut} onClick={onSignOut}>{isSigningOut ? 'Signing Out...' : 'Sign Out'}</button>
+                    <button
+                        className="btn-primary-dark btn-small"
+                        disabled={isSigningOut}
+                        onClick={onSignOut}
+                    >
+                        {isSigningOut ? 'Signing Out...' : 'Sign Out'}
+                    </button>
                 </div>
             )}
         </nav>

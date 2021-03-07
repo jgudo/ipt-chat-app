@@ -1,10 +1,10 @@
-import React, { useContext, useEffect, useState } from 'react';
-import firebase from 'services/firebase';
-import ActiveUsers from './ActiveUsers';
-import { AppContext } from 'context/Provider';
-import Header from './Header';
-import ChatBox from './ChatBox';
+import ActiveUsers from 'components/chat/ActiveUsers';
+import ChatBox from 'components/chat/ChatBox';
+import Header from 'components/chat/Header';
 import LoadingScreen from 'components/LoadingScreen';
+import { useUser } from 'context/UserProvider';
+import React, { useEffect, useState } from 'react';
+import firebase from 'services/firebase';
 
 const Chat = ({ history, match }) => {
     const id = match.params.roomid;
@@ -14,7 +14,7 @@ const Chat = ({ history, match }) => {
         roomName: '',
         users: []
     });
-    const { user } = useContext(AppContext);
+    const { user } = useUser();
     const [chats, setChats] = useState([]);
     const [isLoading, setLoading] = useState(true);
 

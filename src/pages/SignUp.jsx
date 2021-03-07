@@ -181,7 +181,12 @@ const SignUp = () => {
                     </div>
                 </div>
                 <br />
-                <button disabled={isLoading} type="submit" onClick={onSubmit}>
+                <button
+                    className="btn-accent"
+                    disabled={isLoading}
+                    type="submit"
+                    onClick={onSubmit}
+                >
                     {isLoading ? 'Signing Up...' : 'Sign Up'}
                 </button>
             </form>

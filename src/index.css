@@ -1,6 +1,9 @@
 :root {
   --primary-color: #31d431;
   --primary-hover: #23bd23;
+  --primary-hover-1: #18a818;
+  --accent: #f122a1;
+  --accent-hover: #db178f;
   --text-color: #1a1a1a;
   --color-facebook:  #0078ff;
   --color-facebook-hover:  #0265d6;
@@ -24,6 +27,10 @@ body {
 code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
+}
+
+h1 {
+  margin-bottom: 5px;
 }
 
 button {
@@ -52,7 +59,7 @@ button:disabled {
 
 input,
 textarea {
-  padding: 10px;
+  padding: 10px 15px;
   border-radius: 10px;
   border: 1px solid #cacaca;
   font-family: 'Poppins', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
@@ -70,4 +77,8 @@ input:focus,
 textarea:focus {
   outline: none;
   border: 1px solid var(--primary-color);
+}
+
+label {
+  font-weight: bold;
 }
